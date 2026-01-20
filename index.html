@@ -1,132 +1,91 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akriti ❤️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    body{
-      margin:0;
-      font-family:'Poppins',sans-serif;
-      background:linear-gradient(180deg,#ffe6f0,#fff);
-      color:#444;
-      text-align:center;
-    }
-    header{padding:30px 15px}
-    h1{color:#ff4d88}
-    .card{
-      background:#fff;
-      margin:15px;
-      padding:20px;
-      border-radius:20px;
-      box-shadow:0 10px 25px rgba(0,0,0,0.08);
-    }
-    button{
-      background:#ff4d88;
-      color:#fff;
-      border:none;
-      padding:10px 18px;
-      border-radius:25px;
-      font-size:14px;
-      cursor:pointer;
-      margin:6px;
-    }
-    button:hover{opacity:0.9}
-    .bars{
-      display:flex;
-      justify-content:center;
-      gap:4px;
-      margin-top:10px;
-    }
-    .bar{
-      width:6px;
-      height:18px;
-      background:#ff4d88;
-      animation:beat 1s infinite ease-in-out;
-    }
-    .bar:nth-child(2){animation-delay:.2s}
-    .bar:nth-child(3){animation-delay:.4s}
-    .bar:nth-child(4){animation-delay:.6s}
-    @keyframes beat{
-      0%,100%{height:8px}
-      50%{height:24px}
-    }
-    .hidden{display:none}
-    footer{padding:20px;font-size:13px;color:#777}
-    #lockScreen{
-      position:fixed;inset:0;background:#ffe6f0;
-      display:flex;align-items:center;justify-content:center;
-      flex-direction:column;z-index:10
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akriti ❤️</title>
+<style>
+body{
+  margin:0;
+  font-family:Poppins,Arial;
+  background:linear-gradient(#ffe6f0,#fff);
+  text-align:center;
+}
+h1{color:#ff4d88}
+button{
+  background:#ff4d88;
+  color:#fff;
+  border:none;
+  padding:12px 20px;
+  border-radius:25px;
+  cursor:pointer;
+}
+#lock{
+  position:fixed;
+  inset:0;
+  background:#ffe6f0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+</style>
 </head>
-<body><div id="lockScreen">
+
+<body>
+
+<div id="lock">
   <h2>🔒 Private Page</h2>
-  <p>Enter the secret name</p>
-  <input id="pass" placeholder="Hint: Her name" style="padding:10px;border-radius:20px;border:1px solid #ccc">
+  <input id="pass" placeholder="Her name">
   <br><br>
   <button onclick="unlock()">Unlock</button>
-</div><header>
-  <h1>For Akriti 💖</h1>
-  <p>Every song, every beat, every feeling</p>
-</header><div class="card">
-  <h2>🎵 Songs That Feel Like Love</h2>
-  <p>Tap to play — music made for us ❤️</p><button onclick="playSong('song1')">Dooron Dooron – Meghdeep Bose</button> <button onclick="playSong('song2')">Bagaicha – Kta Haru</button>
-
-  <div id="visual" class="bars hidden">
-    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-  </div><audio id="song1" src="doorondooron.mp3"></audio> <audio id="song2" src="bagaicha.mp3"></audio>
-
-</div><div class="card">
-  <h2>💌 A Valentine Note</h2>
-  <p id="note">Tap below</p>
-  <button onclick="showNote()">Open Note</button>
-</div><div class="card">
-  <h2>✨ Sweet Thought</h2>
-  <p id="thought">Tap below</p>
-  <button onclick="randomThought()">Show</button>
 </div>
-<div class="card">
-  <h2>🧠 Valentine Memory Match</h2>
-  <p>Test your love memory ❤️</p>
-  <button onclick="goToGame()">Play</button>
-</div><footer>Made with ❤️ only for Akriti</footer><script>
-  const password = 'akriti';
-  function unlock(){
-    if(document.getElementById('pass').value.toLowerCase()===password){
-      document.getElementById('lockScreen').style.display='none';
-      document.getElementById('song1').play();
-      document.getElementById('visual').classList.remove('hidden');
-    } else alert('Wrong secret 💔');
-  }
 
-  const songs=document.querySelectorAll('audio');
-  function playSong(id){
-    songs.forEach(s=>{if(s.id!==id){s.pause();s.currentTime=0}});
-    const song=document.getElementById(id);
-    const visual=document.getElementById('visual');
-    if(song.paused){song.play();visual.classList.remove('hidden')}
-    else{song.pause();visual.classList.add('hidden')}
-  }
+<h1>For Akriti 💖</h1>
+<p>Every beat reminds me of you</p>
 
-  function showNote(){
-    document.getElementById('note').innerText=
-    'Akriti, some songs feel like love — but you feel like home 💖';
-    'Akriti, please understand my feelings and efforts that i put on making this website dedicated for you'
-  }
+<button onclick="goGame()">Play Memory Game</button>
 
-  const thoughts=[
-    'You are my favorite melody 🎶',
-    'Love sounds like your name ❤️',
-    'Every beat reminds me of you 💓',
-    'You are the reason these songs feel alive ✨'
-  ];
-  function randomThought(){
-    document.getElementById('thought').innerText=
-    thoughts[Math.floor(Math.random()*thoughts.length)];
-  }
-  function goToGame() {
-  window.location.href = "game.html";
+<audio id="bgMusic" src="music1.mp3"></audio>
+
+<script>
+const password="akriti";
+const music=document.getElementById("bgMusic");
+
+function unlock(){
+  if(pass.value.toLowerCase()===password){
+    lock.style.display="none";
+    localStorage.setItem("unlocked","yes");
+    playMusic();
+  }else alert("Wrong secret 💔");
 }
-</script></body>
+
+if(localStorage.getItem("unlocked")==="yes"){
+  lock.style.display="none";
+  playMusic();
+}
+
+function playMusic(){
+  const t=localStorage.getItem("musicTime");
+  if(t) music.currentTime=parseFloat(t);
+  music.play();
+  localStorage.setItem("musicPlaying","yes");
+}
+
+setInterval(()=>{
+  localStorage.setItem("musicTime",music.currentTime);
+},500);
+
+function goGame(){
+  localStorage.setItem("musicTime",music.currentTime);
+  window.location.href="game.html";
+}
+
+music.onended=()=>{
+  music.src = music.src.includes("music1") ? "music2.mp3" : "music1.mp3";
+  music.play();
+};
+</script>
+
+</body>
 </html>
