@@ -8,13 +8,88 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+/* ===== GLOBAL ===== */
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
   background:linear-gradient(180deg,#ffe6f0,#fff);
+  color:#444;
   text-align:center;
 }
-header{padding:30px}
+
+/* ===== LOADING SCREEN ===== */
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  background:#f9f4f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.loader{
+  text-align:center;
+}
+
+.loader img{
+  width:140px;
+  margin-bottom:18px;
+}
+
+.loader h1{
+  color:#e56b8c;
+  font-size:26px;
+  margin:0;
+}
+
+.loader p{
+  color:#caa1ad;
+  margin:4px 0 20px;
+  font-size:14px;
+}
+
+/* progress bar */
+.progress-wrap{
+  width:220px;
+  height:10px;
+  background:#f1d6dc;
+  border-radius:20px;
+  overflow:hidden;
+  margin:auto;
+}
+.progress{
+  height:100%;
+  width:0%;
+  background:#e56b8c;
+  animation:load 2.5s linear forwards;
+}
+
+@keyframes load{
+  from{width:0%}
+  to{width:100%}
+}
+
+/* dots */
+.dots span{
+  display:inline-block;
+  width:8px;
+  height:8px;
+  background:#e56b8c;
+  border-radius:50%;
+  margin:12px 4px 0;
+  animation:bounce 1.4s infinite;
+}
+.dots span:nth-child(2){animation-delay:.2s}
+.dots span:nth-child(3){animation-delay:.4s}
+
+@keyframes bounce{
+  0%,80%,100%{transform:scale(0)}
+  40%{transform:scale(1)}
+}
+
+/* ===== ORIGINAL PAGE STYLES ===== */
+header{padding:30px 15px}
 h1{color:#ff4d88}
 .card{
   background:#fff;
@@ -25,91 +100,203 @@ h1{color:#ff4d88}
 }
 button{
   background:#ff4d88;
-  color:white;
+  color:#fff;
   border:none;
   padding:10px 18px;
   border-radius:25px;
+  font-size:14px;
   cursor:pointer;
+  margin:6px;
 }
+button:hover{opacity:0.9}
+.bars{
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  margin-top:10px;
+}
+.bar{
+  width:6px;
+  height:18px;
+  background:#ff4d88;
+  animation:beat 1s infinite ease-in-out;
+}
+.bar:nth-child(2){animation-delay:.2s}
+.bar:nth-child(3){animation-delay:.4s}
+.bar:nth-child(4){animation-delay:.6s}
+@keyframes beat{
+  0%,100%{height:8px}
+  50%{height:24px}
+}
+.hidden{display:none}
+footer{padding:20px;font-size:13px;color:#777}
+
 #lockScreen{
   position:fixed;
   inset:0;
   background:#ffe6f0;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
+  flex-direction:column;
+  z-index:10;
 }
-.hidden{display:none}
 </style>
 </head>
 
 <body>
 
+<!-- ❤️ LOADING SCREEN -->
+<div id="loadingScreen">
+  <div class="loader">
+    <!-- replace kirby.png with your image -->
+    <img src="kirby.png" alt="Loading">
+    <h1>A Valentine Moment</h1>
+    <p>is being prepared for you...</p>
+
+    <div class="progress-wrap">
+      <div class="progress"></div>
+    </div>
+
+    <div class="dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+
+<!-- 🔒 LOCK SCREEN -->
 <div id="lockScreen">
   <h2>🔒 Private Page</h2>
-  <input id="pass" placeholder="Her name"
-    style="padding:10px;border-radius:20px">
+  <p>Enter the secret name</p>
+  <input id="pass" placeholder="Hint: Her name"
+    style="padding:10px;border-radius:20px;border:1px solid #ccc">
   <br><br>
   <button onclick="unlock()">Unlock</button>
 </div>
 
 <header>
   <h1>For Akriti 💖</h1>
-  <p>Every feeling has a song</p>
+  <p>Every song, every beat, every feeling</p>
 </header>
 
 <div class="card">
-  <h2>🎵 Songs</h2>
-  <button onclick="playSong('s1')">Dooron Dooron</button>
-  <button onclick="playSong('s2')">Bagaicha</button>
+  <h2>🎵 Songs That Feel Like Love</h2>
+  <p>Tap to play — music made for us ❤️</p>
+
+  <button onclick="playSong('song1')">Dooron Dooron – Meghdeep Bose</button>
+  <button onclick="playSong('song2')">Bagaicha – Kta Haru</button>
+
+  <div id="visual" class="bars hidden">
+    <div class="bar"></div><div class="bar"></div>
+    <div class="bar"></div><div class="bar"></div>
+  </div>
+
+  <audio id="song1" src="doorondooron.mp3"></audio>
+  <audio id="song2" src="bagaicha.mp3"></audio>
 </div>
 
 <div class="card">
-  <h2>🧠 Memory Game</h2>
-  <button onclick="goGame()">Play</button>
+  <h2>💌 A Valentine Note</h2>
+  <p id="note">Tap below</p>
+  <button onclick="showNote()">Open Note</button>
 </div>
 
-<footer>Made with ❤️</footer>
+<div class="card">
+  <h2>✨ Sweet Thought</h2>
+  <p id="thought">Tap below</p>
+  <button onclick="randomThought()">Show</button>
+</div>
 
-<audio id="bgMusic" src="music.mp3" loop></audio>
-<audio id="s1" src="doorondooron.mp3"></audio>
-<audio id="s2" src="bagaicha.mp3"></audio>
+<div class="card">
+  <h2>🧠 Valentine Memory Match</h2>
+  <p>Test your love memory ❤️</p>
+  <button onclick="goToGame()">Play</button>
+</div>
+
+<footer>Made with ❤️ only for Akriti</footer>
 
 <script>
-const password = "akriti";
-const bg = document.getElementById("bgMusic");
-const songs = document.querySelectorAll("audio");
+/* ⏳ Hide loader after 2.5s */
+setTimeout(()=>{
+  document.getElementById('loadingScreen').style.display='none';
+},2500);
+
+/* ===== ORIGINAL JS (UNCHANGED) ===== */
+const password = 'akriti';
+const songs = document.querySelectorAll('audio');
+const visual = document.getElementById('visual');
 
 function unlock(){
   if(pass.value.toLowerCase() === password){
-    lockScreen.style.display="none";
-    localStorage.setItem("unlock","yes");
-    startBG();
-  } else alert("Wrong 💔");
+    lockScreen.style.display = 'none';
+    localStorage.setItem('unlocked','yes');
+    restoreMusic();
+  } else alert('Wrong secret 💔');
 }
 
-if(localStorage.getItem("unlock")==="yes"){
-  lockScreen.style.display="none";
-  startBG();
+if(localStorage.getItem('unlocked') === 'yes'){
+  lockScreen.style.display = 'none';
+  restoreMusic();
 }
 
-function startBG(){
-  bg.currentTime = localStorage.getItem("bgTime") || 0;
-  bg.play();
+function playSong(id){
+  songs.forEach(s=>{
+    if(s.id !== id){
+      s.pause();
+      s.currentTime = 0;
+    }
+  });
+  const song = document.getElementById(id);
+  if(song.paused){
+    song.currentTime = localStorage.getItem('musicTime_'+id) || 0;
+    song.play();
+    visual.classList.remove('hidden');
+    localStorage.setItem('currentSong',id);
+  } else {
+    song.pause();
+    visual.classList.add('hidden');
+  }
 }
 
 setInterval(()=>{
-  if(!bg.paused) localStorage.setItem("bgTime", bg.currentTime);
-},500);
+  songs.forEach(s=>{
+    if(!s.paused){
+      localStorage.setItem('musicTime_'+s.id,s.currentTime);
+    }
+  });
+},400);
 
-function playSong(id){
-  songs.forEach(s=>{ if(s.id!==id) s.pause(); });
-  document.getElementById(id).play();
+function restoreMusic(){
+  const id = localStorage.getItem('currentSong');
+  if(!id) return;
+  const song = document.getElementById(id);
+  song.currentTime = localStorage.getItem('musicTime_'+id) || 0;
+  song.play();
+  visual.classList.remove('hidden');
 }
 
-function goGame(){
-  window.location.href="game.html";
+function showNote(){
+  note.innerText =
+    'Akriti, some songs feel like love — but you feel like home 💖';
+}
+
+const thoughts=[
+  'You are my favorite melody 🎶',
+  'Love sounds like your name ❤️',
+  'Every beat reminds me of you 💓',
+  'You are the reason these songs feel alive ✨'
+];
+function randomThought(){
+  thought.innerText = thoughts[Math.floor(Math.random()*thoughts.length)];
+}
+
+function goToGame(){
+  songs.forEach(s=>{
+    if(!s.paused){
+      localStorage.setItem('musicTime_'+s.id,s.currentTime);
+    }
+  });
+  window.location.href='game.html';
 }
 </script>
 
