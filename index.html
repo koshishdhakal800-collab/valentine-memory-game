@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ===== GLOBAL ===== */
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
@@ -28,12 +27,8 @@ body{
   z-index:9999;
 }
 
-.loader{
-  text-align:center;
-}
-
 .loader img{
-  width:140px;
+  width:160px;
   margin-bottom:18px;
 }
 
@@ -49,7 +44,6 @@ body{
   font-size:14px;
 }
 
-/* progress bar */
 .progress-wrap{
   width:220px;
   height:10px;
@@ -58,6 +52,7 @@ body{
   overflow:hidden;
   margin:auto;
 }
+
 .progress{
   height:100%;
   width:0%;
@@ -70,7 +65,6 @@ body{
   to{width:100%}
 }
 
-/* dots */
 .dots span{
   display:inline-block;
   width:8px;
@@ -88,9 +82,10 @@ body{
   40%{transform:scale(1)}
 }
 
-/* ===== ORIGINAL PAGE STYLES ===== */
+/* ===== MAIN PAGE ===== */
 header{padding:30px 15px}
 h1{color:#ff4d88}
+
 .card{
   background:#fff;
   margin:15px;
@@ -98,6 +93,7 @@ h1{color:#ff4d88}
   border-radius:20px;
   box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
+
 button{
   background:#ff4d88;
   color:#fff;
@@ -108,28 +104,37 @@ button{
   cursor:pointer;
   margin:6px;
 }
-button:hover{opacity:0.9}
+
 .bars{
   display:flex;
   justify-content:center;
   gap:4px;
   margin-top:10px;
 }
+
 .bar{
   width:6px;
   height:18px;
   background:#ff4d88;
   animation:beat 1s infinite ease-in-out;
 }
+
 .bar:nth-child(2){animation-delay:.2s}
 .bar:nth-child(3){animation-delay:.4s}
 .bar:nth-child(4){animation-delay:.6s}
+
 @keyframes beat{
   0%,100%{height:8px}
   50%{height:24px}
 }
+
 .hidden{display:none}
-footer{padding:20px;font-size:13px;color:#777}
+
+footer{
+  padding:20px;
+  font-size:13px;
+  color:#777;
+}
 
 #lockScreen{
   position:fixed;
@@ -149,8 +154,8 @@ footer{padding:20px;font-size:13px;color:#777}
 <!-- ❤️ LOADING SCREEN -->
 <div id="loadingScreen">
   <div class="loader">
-    <!-- replace kirby.png with your image -->
-    <img src="kirby.png" alt="Loading">
+    <!-- ✅ FIXED IMAGE -->
+    <img src="ladingpic.jpg" alt="Loading">
     <h1>A Valentine Moment</h1>
     <p>is being prepared for you...</p>
 
@@ -181,18 +186,23 @@ footer{padding:20px;font-size:13px;color:#777}
 
 <div class="card">
   <h2>🎵 Songs That Feel Like Love</h2>
-  <p>Tap to play — music made for us ❤️</p>
 
-  <button onclick="playSong('song1')">Dooron Dooron – Meghdeep Bose</button>
-  <button onclick="playSong('song2')">Bagaicha – Kta Haru</button>
+  <button onclick="playSong('song1')">
+    Dooron Dooron – Meghdeep Bose
+  </button>
+
+  <button onclick="playSong('song2')">
+    Bagaicha – Kta Haru
+  </button>
 
   <div id="visual" class="bars hidden">
     <div class="bar"></div><div class="bar"></div>
     <div class="bar"></div><div class="bar"></div>
   </div>
 
-  <audio id="song1" src="doorondooron.mp3"></audio>
-  <audio id="song2" src="bagaicha.mp3"></audio>
+  <!-- ✅ FIXED AUDIO -->
+  <audio id="song1" src="doorondooron.mp3" preload="auto"></audio>
+  <audio id="song2" src="bagaicha.mp3" preload="auto"></audio>
 </div>
 
 <div class="card">
@@ -209,53 +219,45 @@ footer{padding:20px;font-size:13px;color:#777}
 
 <div class="card">
   <h2>🧠 Valentine Memory Match</h2>
-  <p>Test your love memory ❤️</p>
   <button onclick="goToGame()">Play</button>
 </div>
 
 <footer>Made with ❤️ only for Akriti</footer>
 
 <script>
-/* ⏳ Hide loader after 2.5s */
 setTimeout(()=>{
-  document.getElementById('loadingScreen').style.display='none';
+  loadingScreen.style.display='none';
 },2500);
 
-/* ===== ORIGINAL JS (UNCHANGED) ===== */
-const password = 'akriti';
-const songs = document.querySelectorAll('audio');
-const visual = document.getElementById('visual');
+const password='akriti';
+const songs=document.querySelectorAll('audio');
+const visual=document.getElementById('visual');
 
 function unlock(){
-  if(pass.value.toLowerCase() === password){
-    lockScreen.style.display = 'none';
+  if(pass.value.toLowerCase()===password){
+    lockScreen.style.display='none';
     localStorage.setItem('unlocked','yes');
     restoreMusic();
   } else alert('Wrong secret 💔');
 }
 
-if(localStorage.getItem('unlocked') === 'yes'){
-  lockScreen.style.display = 'none';
+if(localStorage.getItem('unlocked')==='yes'){
+  lockScreen.style.display='none';
   restoreMusic();
 }
 
 function playSong(id){
   songs.forEach(s=>{
-    if(s.id !== id){
+    if(s.id!==id){
       s.pause();
-      s.currentTime = 0;
+      s.currentTime=0;
     }
   });
-  const song = document.getElementById(id);
-  if(song.paused){
-    song.currentTime = localStorage.getItem('musicTime_'+id) || 0;
-    song.play();
-    visual.classList.remove('hidden');
-    localStorage.setItem('currentSong',id);
-  } else {
-    song.pause();
-    visual.classList.add('hidden');
-  }
+  const song=document.getElementById(id);
+  song.currentTime=localStorage.getItem('musicTime_'+id)||0;
+  song.play();
+  visual.classList.remove('hidden');
+  localStorage.setItem('currentSong',id);
 }
 
 setInterval(()=>{
@@ -267,36 +269,31 @@ setInterval(()=>{
 },400);
 
 function restoreMusic(){
-  const id = localStorage.getItem('currentSong');
+  const id=localStorage.getItem('currentSong');
   if(!id) return;
-  const song = document.getElementById(id);
-  song.currentTime = localStorage.getItem('musicTime_'+id) || 0;
+  const song=document.getElementById(id);
+  song.currentTime=localStorage.getItem('musicTime_'+id)||0;
   song.play();
   visual.classList.remove('hidden');
 }
 
 function showNote(){
-  note.innerText =
-    'Akriti, some songs feel like love — but you feel like home 💖';
+  note.innerText="Akriti, some songs feel like love — but you feel like home 💖";
 }
 
 const thoughts=[
-  'You are my favorite melody 🎶',
-  'Love sounds like your name ❤️',
-  'Every beat reminds me of you 💓',
-  'You are the reason these songs feel alive ✨'
+  "You are my favorite melody 🎶",
+  "Love sounds like your name ❤️",
+  "Every beat reminds me of you 💓",
+  "You are the reason these songs feel alive ✨"
 ];
+
 function randomThought(){
-  thought.innerText = thoughts[Math.floor(Math.random()*thoughts.length)];
+  thought.innerText=thoughts[Math.floor(Math.random()*thoughts.length)];
 }
 
 function goToGame(){
-  songs.forEach(s=>{
-    if(!s.paused){
-      localStorage.setItem('musicTime_'+s.id,s.currentTime);
-    }
-  });
-  window.location.href='game.html';
+  window.location.href="game.html";
 }
 </script>
 
