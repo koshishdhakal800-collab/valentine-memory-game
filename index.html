@@ -4,21 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Akriti ❤️</title>
+
 <style>
 body{
   margin:0;
-  font-family:Poppins,Arial;
+  font-family:Arial;
   background:linear-gradient(#ffe6f0,#fff);
   text-align:center;
 }
 h1{color:#ff4d88}
 button{
   background:#ff4d88;
-  color:#fff;
+  color:white;
   border:none;
   padding:12px 20px;
   border-radius:25px;
-  cursor:pointer;
 }
 #lock{
   position:fixed;
@@ -46,45 +46,46 @@ button{
 
 <button onclick="goGame()">Play Memory Game</button>
 
-<audio id="bgMusic" src="music1.mp3"></audio>
+<audio id="music" src="music1.mp3"></audio>
 
 <script>
+const music=document.getElementById("music");
 const password="akriti";
-const music=document.getElementById("bgMusic");
 
+/* unlock */
 function unlock(){
   if(pass.value.toLowerCase()===password){
     lock.style.display="none";
     localStorage.setItem("unlocked","yes");
-    playMusic();
+    startMusic();
   }else alert("Wrong secret 💔");
 }
 
 if(localStorage.getItem("unlocked")==="yes"){
   lock.style.display="none";
-  playMusic();
+  startMusic();
 }
 
-function playMusic(){
-  const t=localStorage.getItem("musicTime");
-  if(t) music.currentTime=parseFloat(t);
+/* music */
+function startMusic(){
+  music.currentTime = Number(localStorage.getItem("musicTime")||0);
   music.play();
-  localStorage.setItem("musicPlaying","yes");
 }
 
 setInterval(()=>{
   localStorage.setItem("musicTime",music.currentTime);
-},500);
-
-function goGame(){
-  localStorage.setItem("musicTime",music.currentTime);
-  window.location.href="game.html";
-}
+},300);
 
 music.onended=()=>{
   music.src = music.src.includes("music1") ? "music2.mp3" : "music1.mp3";
   music.play();
 };
+
+/* go game */
+function goGame(){
+  localStorage.setItem("musicTime",music.currentTime);
+  window.location.href="game.html";
+}
 </script>
 
 </body>
