@@ -15,6 +15,59 @@ body{
   color:#444;
   text-align:center;
 }
+
+/* 🔄 LOADING SCREEN */
+#loadingScreen{
+  position:fixed;
+  inset:0;
+  background:#ffe6f0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+#loadingScreen img{
+  width:200px;
+  margin-bottom:20px;
+  animation:float 2s ease-in-out infinite;
+}
+#loadingScreen h2{
+  color:#ff4d88;
+  font-weight:600;
+}
+#loadingScreen p{
+  color:#999;
+}
+.progress{
+  width:220px;
+  height:10px;
+  background:#ffd1e1;
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:20px;
+}
+.fill{
+  width:0%;
+  height:100%;
+  background:#ff4d88;
+  animation:load 2.5s forwards;
+}
+.dots{
+  margin-top:10px;
+  color:#ff4d88;
+  letter-spacing:6px;
+  font-size:18px;
+}
+@keyframes load{
+  to{ width:100%; }
+}
+@keyframes float{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-8px); }
+}
+
+/* ORIGINAL STYLES */
 header{padding:30px 15px}
 h1{color:#ff4d88}
 .card{
@@ -56,6 +109,7 @@ button:hover{opacity:0.9}
 }
 .hidden{display:none}
 footer{padding:20px;font-size:13px;color:#777}
+
 #lockScreen{
   position:fixed;
   inset:0;
@@ -71,6 +125,16 @@ footer{padding:20px;font-size:13px;color:#777}
 
 <body>
 
+<!-- 🌸 LOADING SCREEN -->
+<div id="loadingScreen">
+  <img src="ladingpic.jpg" alt="Loading">
+  <h2>A Valentine Moment</h2>
+  <p>is being prepared for you...</p>
+  <div class="progress"><div class="fill"></div></div>
+  <div class="dots">● ● ●</div>
+</div>
+
+<!-- 🔒 LOCK SCREEN -->
 <div id="lockScreen">
   <h2>🔒 Private Page</h2>
   <p>Enter the secret name</p>
@@ -124,6 +188,13 @@ footer{padding:20px;font-size:13px;color:#777}
 <footer>Made with ❤️ only for Akriti</footer>
 
 <script>
+/* 🔄 LOADING HIDE */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loadingScreen').style.display='none';
+  },2500);
+});
+
 const password = 'akriti';
 const songs = document.querySelectorAll('audio');
 const visual = document.getElementById('visual');
@@ -134,65 +205,57 @@ function unlock(){
     lockScreen.style.display = 'none';
     localStorage.setItem('unlocked','yes');
     restoreMusic();
-  } else {
-    alert('Wrong secret 💔');
-  }
+  } else alert('Wrong secret 💔');
 }
 
-/* Keep unlocked on return */
+/* Keep unlocked */
 if(localStorage.getItem('unlocked') === 'yes'){
   lockScreen.style.display = 'none';
   restoreMusic();
 }
 
-/* 🎵 Play / Pause */
+/* 🎵 Play */
 function playSong(id){
   songs.forEach(s=>{
-    if(s.id !== id){
-      s.pause();
-      s.currentTime = 0;
-    }
+    if(s.id!==id){s.pause();s.currentTime=0;}
   });
-
-  const song = document.getElementById(id);
-
+  const song=document.getElementById(id);
   if(song.paused){
-    song.currentTime = localStorage.getItem('musicTime_' + id) || 0;
+    song.currentTime=localStorage.getItem('musicTime_'+id)||0;
     song.play();
     visual.classList.remove('hidden');
-    localStorage.setItem('currentSong', id);
-  } else {
+    localStorage.setItem('currentSong',id);
+  }else{
     song.pause();
     visual.classList.add('hidden');
   }
 }
 
-/* 💾 Save progress */
+/* 💾 Save */
 setInterval(()=>{
   songs.forEach(s=>{
     if(!s.paused){
-      localStorage.setItem('musicTime_' + s.id, s.currentTime);
+      localStorage.setItem('musicTime_'+s.id,s.currentTime);
     }
   });
-}, 400);
+},400);
 
-/* 🔄 Restore on return */
+/* 🔄 Restore */
 function restoreMusic(){
-  const id = localStorage.getItem('currentSong');
+  const id=localStorage.getItem('currentSong');
   if(!id) return;
-  const song = document.getElementById(id);
-  song.currentTime = localStorage.getItem('musicTime_' + id) || 0;
+  const song=document.getElementById(id);
+  song.currentTime=localStorage.getItem('musicTime_'+id)||0;
   song.play();
   visual.classList.remove('hidden');
 }
 
-/* 💌 Note */
+/* 💌 */
 function showNote(){
-  document.getElementById('note').innerText =
-    'Akriti, some songs feel like love — but you feel like home 💖';
+  note.innerText='Akriti, some songs feel like love — but you feel like home 💖';
 }
 
-/* ✨ Thoughts */
+/* ✨ */
 const thoughts=[
   'You are my favorite melody 🎶',
   'Love sounds like your name ❤️',
@@ -200,17 +263,17 @@ const thoughts=[
   'You are the reason these songs feel alive ✨'
 ];
 function randomThought(){
-  thought.innerText = thoughts[Math.floor(Math.random()*thoughts.length)];
+  thought.innerText=thoughts[Math.floor(Math.random()*thoughts.length)];
 }
 
-/* 🎮 Game */
+/* 🎮 */
 function goToGame(){
   songs.forEach(s=>{
     if(!s.paused){
-      localStorage.setItem('musicTime_' + s.id, s.currentTime);
+      localStorage.setItem('musicTime_'+s.id,s.currentTime);
     }
   });
-  window.location.href = 'game.html';
+  window.location.href='game.html';
 }
 </script>
 
