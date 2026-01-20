@@ -12,7 +12,6 @@ body{
   background:linear-gradient(#ffe6f0,#fff);
   text-align:center;
 }
-
 h1{ color:#ff4d88; margin:20px 0 10px }
 
 .grid{
@@ -30,7 +29,6 @@ h1{ color:#ff4d88; margin:20px 0 10px }
   perspective:600px;
   cursor:pointer;
 }
-
 .inner{
   width:100%;
   height:100%;
@@ -39,12 +37,10 @@ h1{ color:#ff4d88; margin:20px 0 10px }
   transform-style:preserve-3d;
   position:relative;
 }
-
 .card.flipped .inner,
 .card.matched .inner{
   transform:rotateY(180deg);
 }
-
 .face{
   position:absolute;
   width:100%;
@@ -55,13 +51,11 @@ h1{ color:#ff4d88; margin:20px 0 10px }
   align-items:center;
   justify-content:center;
 }
-
 .front{
   background:#ff4d88;
   color:white;
   font-size:28px;
 }
-
 .back{
   background:white;
   transform:rotateY(180deg);
@@ -101,7 +95,6 @@ button{
 </div>
 
 <div class="grid" id="grid"></div>
-
 <p id="msg"></p>
 
 <button id="playAgain">🔄 Play Again</button>
@@ -109,8 +102,8 @@ button{
 <button onclick="goBack()">← Back</button>
 
 <!-- 🎵 MUSIC -->
-<audio id="music1" src="music1.mp3"></audio>
-<audio id="music2" src="music2.mp3"></audio>
+<audio id="music1" src="music1.mp3" preload="auto"></audio>
+<audio id="music2" src="music2.mp3" preload="auto"></audio>
 
 <script>
 const images = [
@@ -135,16 +128,9 @@ let matchedPairs = 0;
 let flips = 0;
 let muted = false;
 
-/* 🎵 MUSIC SYSTEM (FIXED) */
+/* 🎵 MUSIC SYSTEM */
 music1.volume = music2.volume = 0.4;
-
-const lastSong = localStorage.getItem("currentSong") || "music1";
-const lastTime = localStorage.getItem("musicTime_"+lastSong) || 0;
-
-const current = lastSong === "song2" ? music2 : music1;
-current.currentTime = lastTime;
-current.play();
-
+music1.play().catch(()=>{});
 music1.onended = () => music2.play();
 music2.onended = () => music1.play();
 
@@ -186,15 +172,14 @@ function startGame(){
 
     const back = document.createElement("div");
     back.className = "face back";
-    back.style.backgroundImage = `url(${img})`;
+    back.style.backgroundImage = `url('${img}')`;
 
     inner.appendChild(front);
     inner.appendChild(back);
     card.appendChild(inner);
-
     card.dataset.img = img;
-    card.onclick = () => flip(card);
 
+    card.onclick = () => flip(card);
     grid.appendChild(card);
   });
 }
@@ -247,7 +232,6 @@ function goBack(){
 
 startGame();
 </script>
-
 
 </body>
 </html>
