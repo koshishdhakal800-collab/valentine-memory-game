@@ -16,7 +16,6 @@ body{
   text-align:center;
 }
 
-/* ===== LOADING SCREEN ===== */
 #loadingScreen{
   position:fixed;
   inset:0;
@@ -28,63 +27,22 @@ body{
 }
 
 .loader{text-align:center}
-
-.loader img{
-  width:160px;
-  margin-bottom:18px;
-}
-
-.loader h1{
-  color:#e56b8c;
-  font-size:26px;
-  margin:0;
-}
-
-.loader p{
-  color:#caa1ad;
-  margin:4px 0 20px;
-  font-size:14px;
-}
+.loader img{width:160px;margin-bottom:18px}
+.loader h1{color:#e56b8c;font-size:26px;margin:0}
+.loader p{color:#caa1ad;margin:4px 0 20px;font-size:14px}
 
 .progress-wrap{
-  width:220px;
-  height:10px;
-  background:#f1d6dc;
-  border-radius:20px;
-  overflow:hidden;
-  margin:auto;
+  width:220px;height:10px;
+  background:#f1d6dc;border-radius:20px;
+  overflow:hidden;margin:auto
 }
-
 .progress{
-  height:100%;
-  width:0%;
+  height:100%;width:0%;
   background:#e56b8c;
-  animation:load 2.5s linear forwards;
+  animation:load 2.5s linear forwards
 }
+@keyframes load{to{width:100%}}
 
-@keyframes load{
-  from{width:0%}
-  to{width:100%}
-}
-
-.dots span{
-  display:inline-block;
-  width:8px;
-  height:8px;
-  background:#e56b8c;
-  border-radius:50%;
-  margin:12px 4px 0;
-  animation:bounce 1.4s infinite;
-}
-.dots span:nth-child(2){animation-delay:.2s}
-.dots span:nth-child(3){animation-delay:.4s}
-
-@keyframes bounce{
-  0%,80%,100%{transform:scale(0)}
-  40%{transform:scale(1)}
-}
-
-/* ===== PAGE ===== */
 header{padding:30px 15px}
 h1{color:#ff4d88}
 
@@ -102,12 +60,9 @@ button{
   border:none;
   padding:10px 18px;
   border-radius:25px;
-  font-size:14px;
   cursor:pointer;
   margin:6px;
 }
-
-button:hover{opacity:0.9}
 
 .bars{
   display:flex;
@@ -117,16 +72,10 @@ button:hover{opacity:0.9}
 }
 
 .bar{
-  width:6px;
-  height:18px;
+  width:6px;height:18px;
   background:#ff4d88;
-  animation:beat 1s infinite ease-in-out;
+  animation:beat 1s infinite
 }
-
-.bar:nth-child(2){animation-delay:.2s}
-.bar:nth-child(3){animation-delay:.4s}
-.bar:nth-child(4){animation-delay:.6s}
-
 @keyframes beat{
   0%,100%{height:8px}
   50%{height:24px}
@@ -134,27 +83,19 @@ button:hover{opacity:0.9}
 
 .hidden{display:none}
 
-footer{
-  padding:20px;
-  font-size:13px;
-  color:#777;
-}
-
 #lockScreen{
   position:fixed;
   inset:0;
   background:#ffe6f0;
   display:flex;
-  align-items:center;
-  justify-content:center;
   flex-direction:column;
-  z-index:10;
+  justify-content:center;
+  align-items:center;
 }
 
-#note{
-  font-size:14px;
-  line-height:1.6;
-}
+#note{font-size:14px;line-height:1.6}
+
+footer{padding:20px;font-size:13px;color:#777}
 </style>
 </head>
 
@@ -163,26 +104,17 @@ footer{
 <!-- ❤️ LOADING SCREEN -->
 <div id="loadingScreen">
   <div class="loader">
-    <img src="ladingpic.jpg" alt="Loading">
+    <img src="lading.jpg">
     <h1>A Valentine Moment</h1>
     <p>is being prepared for you...</p>
-
-    <div class="progress-wrap">
-      <div class="progress"></div>
-    </div>
-
-    <div class="dots">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="progress-wrap"><div class="progress"></div></div>
   </div>
 </div>
 
 <!-- 🔒 LOCK SCREEN -->
 <div id="lockScreen">
   <h2>🔒 Private Page</h2>
-  <p>Enter the secret name</p>
-  <input id="pass" placeholder="Hint: Her name"
-    style="padding:10px;border-radius:20px;border:1px solid #ccc">
+  <input id="pass" placeholder="Hint: Her name">
   <br><br>
   <button onclick="unlock()">Unlock</button>
 </div>
@@ -193,9 +125,6 @@ footer{
 </header>
 
 <div class="card">
-  <h2>🎵 Songs That Feel Like Love</h2>
-  <p>Tap to play — music made for us ❤️</p>
-
   <button onclick="playSong('song1')">Dooron Dooron – Meghdeep Bose</button>
   <button onclick="playSong('song2')">Bagaicha – Kta Haru</button>
 
@@ -204,8 +133,8 @@ footer{
     <div class="bar"></div><div class="bar"></div>
   </div>
 
-  <audio id="song1" src="doorondooron.mp3" preload="auto"></audio>
-  <audio id="song2" src="bagaicha.mp3" preload="auto"></audio>
+  <audio id="song1" src="doorondooron.mp3"></audio>
+  <audio id="song2" src="bagaicha.mp3"></audio>
 </div>
 
 <div class="card">
@@ -229,62 +158,30 @@ footer{
 <footer>Made with ❤️ only for Akriti</footer>
 
 <script>
-/* ⏳ LOADER */
-setTimeout(()=>{
-  loadingScreen.style.display='none';
-},2500);
+setTimeout(()=>loadingScreen.style.display='none',2500);
 
-const password = 'akriti';
-const songs = document.querySelectorAll('audio');
-const visual = document.getElementById('visual');
+const password='akriti';
+const songs=document.querySelectorAll('audio');
+const visual=document.getElementById('visual');
 
 function unlock(){
-  if(pass.value.toLowerCase() === password){
-    lockScreen.style.display = 'none';
+  if(pass.value.toLowerCase()===password){
+    lockScreen.style.display='none';
     localStorage.setItem('unlocked','yes');
-    restoreMusic();
-  } else alert('Wrong secret 💔');
-}
-
-if(localStorage.getItem('unlocked') === 'yes'){
-  lockScreen.style.display = 'none';
-  restoreMusic();
+  }
 }
 
 function playSong(id){
-  songs.forEach(s=>{
-    if(s.id !== id){
-      s.pause();
-      s.currentTime = 0;
-    }
-  });
-  const song = document.getElementById(id);
-  song.currentTime = localStorage.getItem('musicTime_'+id) || 0;
+  songs.forEach(s=>{s.pause();s.currentTime=0});
+  const song=document.getElementById(id);
   song.play();
   visual.classList.remove('hidden');
   localStorage.setItem('currentSong',id);
 }
 
-/* 🔁 AUTO SWITCH SONGS (FIX) */
-song1.onended = () => playSong('song2');
-song2.onended = () => playSong('song1');
-
-setInterval(()=>{
-  songs.forEach(s=>{
-    if(!s.paused){
-      localStorage.setItem('musicTime_'+s.id,s.currentTime);
-    }
-  });
-},400);
-
-function restoreMusic(){
-  const id = localStorage.getItem('currentSong');
-  if(!id) return;
-  const song = document.getElementById(id);
-  song.currentTime = localStorage.getItem('musicTime_'+id) || 0;
-  song.play();
-  visual.classList.remove('hidden');
-}
+/* 🔁 AUTO SWITCH SONGS */
+song1.onended=()=>playSong('song2');
+song2.onended=()=>playSong('song1');
 
 function showNote(){
   note.innerText =
@@ -294,11 +191,11 @@ Distance keeps us apart, but my heart feels closest to you 💞
 Loving you is one of the most beautiful things in my life ✨
 
 I know you get upset sometimes, and I understand that 🫂
-But when you go quiet or ignore me, it hurts — because all I want in those moments is to feel close to you 💔➡️❤️
+But when you go quiet or ignore me, it hurts — because all I want is to feel close to you 💔➡️❤️
 
-Please open your heart to me, even when you’re angry or sad because of me 🥺
+Please open your heart to me 🥺
 Talk to me instead of pushing me away 💬
-Our love deserves words, not silence — especially when miles already separate us 🌍💕
+Our love deserves words, not silence 🌍💕
 
 I promise to listen with patience 🌸
 Love you through your storms ⛈️
@@ -308,22 +205,18 @@ No matter what, I choose you — today and always 🤍✨`;
 }
 
 const thoughts=[
+  'You are the reason these songs feel alive ✨',
   'You are my favorite melody 🎶',
   'Love sounds like your name ❤️',
-  'Every beat reminds me of you 💓',
-  'You are the reason these songs feel alive ✨'
+  'Every beat reminds me of you 💓'
+  
 ];
 
 function randomThought(){
-  thought.innerText = thoughts[Math.floor(Math.random()*thoughts.length)];
+  thought.innerText=thoughts[Math.floor(Math.random()*thoughts.length)];
 }
 
 function goToGame(){
-  songs.forEach(s=>{
-    if(!s.paused){
-      localStorage.setItem('musicTime_'+s.id,s.currentTime);
-    }
-  });
   window.location.href='game.html';
 }
 </script>
