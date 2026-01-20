@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Akriti ❤️</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -13,28 +14,8 @@ body{
   background:linear-gradient(180deg,#ffe6f0,#fff);
   text-align:center;
 }
-.hidden{display:none}
-#loading{
-  position:fixed;
-  inset:0;
-  background:#ffe6f0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-#loading img{width:160px}
-#lockScreen{
-  position:fixed;
-  inset:0;
-  background:#ffe6f0;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:10;
-}
+header{padding:30px}
+h1{color:#ff4d88}
 .card{
   background:#fff;
   margin:15px;
@@ -44,100 +25,93 @@ body{
 }
 button{
   background:#ff4d88;
-  color:#fff;
+  color:white;
   border:none;
   padding:10px 18px;
   border-radius:25px;
   cursor:pointer;
 }
-.bars{display:flex;justify-content:center;gap:4px}
-.bar{
-  width:6px;height:18px;background:#ff4d88;
-  animation:beat 1s infinite;
+#lockScreen{
+  position:fixed;
+  inset:0;
+  background:#ffe6f0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
-@keyframes beat{0%,100%{height:8px}50%{height:24px}}
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
-<div id="loading">
-  <img src="loadingpic.jpg">
-  <p>A Valentine Moment is being prepared for you…</p>
-</div>
-
-<div id="lockScreen" class="hidden">
+<div id="lockScreen">
   <h2>🔒 Private Page</h2>
-  <input id="pass" placeholder="Her name">
+  <input id="pass" placeholder="Her name"
+    style="padding:10px;border-radius:20px">
   <br><br>
   <button onclick="unlock()">Unlock</button>
 </div>
 
-<header class="hidden" id="main">
+<header>
   <h1>For Akriti 💖</h1>
-  <p>Every song, every beat, every feeling</p>
+  <p>Every feeling has a song</p>
 </header>
 
-<div class="card hidden">
-  <button onclick="playSong('song1')">Dooron Dooron</button>
-  <button onclick="playSong('song2')">Bagaicha</button>
-  <div id="visual" class="bars hidden">
-    <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-  </div>
+<div class="card">
+  <h2>🎵 Songs</h2>
+  <button onclick="playSong('s1')">Dooron Dooron</button>
+  <button onclick="playSong('s2')">Bagaicha</button>
 </div>
 
-<div class="card hidden">
-  <h2>🧠 Valentine Memory Match</h2>
-  <button onclick="goToGame()">Play</button>
+<div class="card">
+  <h2>🧠 Memory Game</h2>
+  <button onclick="goGame()">Play</button>
 </div>
 
-<audio id="song1" src="doorondooron.mp3" loop></audio>
-<audio id="song2" src="bagaicha.mp3" loop></audio>
+<footer>Made with ❤️</footer>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+<audio id="s1" src="doorondooron.mp3"></audio>
+<audio id="s2" src="bagaicha.mp3"></audio>
 
 <script>
-const loading=document.getElementById('loading');
-const lockScreen=document.getElementById('lockScreen');
-const main=document.querySelectorAll('.hidden');
-const password="akriti";
-const songs=document.querySelectorAll('audio');
-const visual=document.getElementById('visual');
-
-if(!localStorage.getItem('loaded')){
-  setTimeout(()=>{
-    loading.style.display="none";
-    lockScreen.classList.remove('hidden');
-    localStorage.setItem('loaded','yes');
-  },2500);
-}else{
-  loading.style.display="none";
-  lockScreen.classList.remove('hidden');
-}
+const password = "akriti";
+const bg = document.getElementById("bgMusic");
+const songs = document.querySelectorAll("audio");
 
 function unlock(){
-  if(pass.value.toLowerCase()===password){
+  if(pass.value.toLowerCase() === password){
     lockScreen.style.display="none";
-    main.forEach(e=>e.classList.remove('hidden'));
-    restoreMusic();
-  }
+    localStorage.setItem("unlock","yes");
+    startBG();
+  } else alert("Wrong 💔");
 }
+
+if(localStorage.getItem("unlock")==="yes"){
+  lockScreen.style.display="none";
+  startBG();
+}
+
+function startBG(){
+  bg.currentTime = localStorage.getItem("bgTime") || 0;
+  bg.play();
+}
+
+setInterval(()=>{
+  if(!bg.paused) localStorage.setItem("bgTime", bg.currentTime);
+},500);
 
 function playSong(id){
-  songs.forEach(s=>{if(s.id!==id)s.pause()});
-  const song=document.getElementById(id);
-  song.play();
-  visual.classList.remove('hidden');
-  localStorage.setItem('song',id);
+  songs.forEach(s=>{ if(s.id!==id) s.pause(); });
+  document.getElementById(id).play();
 }
 
-function restoreMusic(){
-  const id=localStorage.getItem('song');
-  if(id){
-    document.getElementById(id).play();
-    visual.classList.remove('hidden');
-  }
+function goGame(){
+  window.location.href="game.html";
 }
-
-function goToGame(){location.href="game.html";}
 </script>
+
 </body>
 </html>
