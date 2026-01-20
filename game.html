@@ -135,9 +135,16 @@ let matchedPairs = 0;
 let flips = 0;
 let muted = false;
 
-/* 🎵 MUSIC SYSTEM */
+/* 🎵 MUSIC SYSTEM (FIXED) */
 music1.volume = music2.volume = 0.4;
-music1.play();
+
+const lastSong = localStorage.getItem("currentSong") || "music1";
+const lastTime = localStorage.getItem("musicTime_"+lastSong) || 0;
+
+const current = lastSong === "song2" ? music2 : music1;
+current.currentTime = lastTime;
+current.play();
+
 music1.onended = () => music2.play();
 music2.onended = () => music1.play();
 
@@ -240,6 +247,7 @@ function goBack(){
 
 startGame();
 </script>
+
 
 </body>
 </html>
