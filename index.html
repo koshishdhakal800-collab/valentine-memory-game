@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
-/* ===== GLOBAL ===== */
 body{
   margin:0;
   font-family:'Poppins',sans-serif;
@@ -28,9 +27,7 @@ body{
   z-index:9999;
 }
 
-.loader{
-  text-align:center;
-}
+.loader{text-align:center}
 
 .loader img{
   width:160px;
@@ -87,7 +84,7 @@ body{
   40%{transform:scale(1)}
 }
 
-/* ===== ORIGINAL PAGE STYLES ===== */
+/* ===== PAGE ===== */
 header{padding:30px 15px}
 h1{color:#ff4d88}
 
@@ -154,7 +151,6 @@ footer{
   z-index:10;
 }
 
-/* ✅ ONLY ADDITION — fits long note */
 #note{
   font-size:14px;
   line-height:1.6;
@@ -167,7 +163,7 @@ footer{
 <!-- ❤️ LOADING SCREEN -->
 <div id="loadingScreen">
   <div class="loader">
-    <img src="lading.jpg" alt="Loading">
+    <img src="ladingpic.jpg" alt="Loading">
     <h1>A Valentine Moment</h1>
     <p>is being prepared for you...</p>
 
@@ -233,7 +229,7 @@ footer{
 <footer>Made with ❤️ only for Akriti</footer>
 
 <script>
-/* ⏳ Hide loader */
+/* ⏳ LOADER */
 setTimeout(()=>{
   loadingScreen.style.display='none';
 },2500);
@@ -269,6 +265,10 @@ function playSong(id){
   localStorage.setItem('currentSong',id);
 }
 
+/* 🔁 AUTO SWITCH SONGS (FIX) */
+song1.onended = () => playSong('song2');
+song2.onended = () => playSong('song1');
+
 setInterval(()=>{
   songs.forEach(s=>{
     if(!s.paused){
@@ -290,18 +290,18 @@ function showNote(){
   note.innerText =
 `Akriti 🤍,
 
-Distance keeps us apart, but my heart feels closest to you 💞  
+Distance keeps us apart, but my heart feels closest to you 💞
 Loving you is one of the most beautiful things in my life ✨
 
-I know you get upset sometimes, and I understand that 🫂  
+I know you get upset sometimes, and I understand that 🫂
 But when you go quiet or ignore me, it hurts — because all I want in those moments is to feel close to you 💔➡️❤️
 
-Please open your heart to me, even when you’re angry or sad because of me 🥺  
-Talk to me instead of pushing me away 💬  
+Please open your heart to me, even when you’re angry or sad because of me 🥺
+Talk to me instead of pushing me away 💬
 Our love deserves words, not silence — especially when miles already separate us 🌍💕
 
-I promise to listen with patience 🌸  
-Love you through your storms ⛈️  
+I promise to listen with patience 🌸
+Love you through your storms ⛈️
 And never give up on us 🤞
 
 No matter what, I choose you — today and always 🤍✨`;
