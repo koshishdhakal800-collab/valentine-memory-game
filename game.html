@@ -22,9 +22,6 @@ h1{color:#ff4d88}
 .card{
   width:80px;
   height:80px;
-  background:#ff4d88;
-  border-radius:16px;
-  cursor:pointer;
   perspective:600px;
 }
 .inner{
@@ -32,7 +29,7 @@ h1{color:#ff4d88}
   height:100%;
   position:relative;
   transform-style:preserve-3d;
-  transition:transform .4s;
+  transition:0.4s;
 }
 .open .inner{transform:rotateY(180deg)}
 .face{
@@ -62,7 +59,7 @@ button{
 <body>
 
 <h1>💖 Memory Match</h1>
-<p>Flips: <span id="flips">0</span> | Best: <span id="best">--</span></p>
+<p>Flips: <span id="flips">0</span> | Best: <span id="best">0</span></p>
 
 <div class="grid" id="grid"></div>
 
@@ -70,19 +67,34 @@ button{
 <button onclick="goHome()">⬅ Back</button>
 <button onclick="toggleMute()">🔈</button>
 
-<audio id="bgMusic" src="music1.mp3"></audio>
+<audio id="music" src="music1.mp3"></audio>
 
 <script>
+/* RESET BEST SCORE EVERY TIME */
+localStorage.setItem("best","0");
+
 const images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg"];
 let cards=[],first=null,lock=false,matched=0,flips=0;
 
 const grid=document.getElementById("grid");
 const flipsEl=document.getElementById("flips");
 const bestEl=document.getElementById("best");
-const music=document.getElementById("bgMusic");
+const music=document.getElementById("music");
 
-bestEl.textContent=localStorage.getItem("best")||"--";
+bestEl.textContent=0;
 
+/* music restore */
+music.currentTime = Number(localStorage.getItem("musicTime")||0);
+music.play();
+
+music.onended=()=>{
+  music.src = music.src.includes("music1") ? "music2.mp3" : "music1.mp3";
+  music.play();
+};
+
+function toggleMute(){music.muted=!music.muted}
+
+/* game */
 function start(){
   grid.innerHTML="";
   cards=[...images,...images].sort(()=>Math.random()-0.5);
@@ -90,15 +102,15 @@ function start(){
   flipsEl.textContent=0;
 
   cards.forEach(img=>{
-    const card=document.createElement("div");
-    card.className="card";
-    card.innerHTML=`
+    const c=document.createElement("div");
+    c.className="card";
+    c.innerHTML=`
       <div class="inner">
         <div class="face front"></div>
         <div class="face back" style="background-image:url(${img})"></div>
       </div>`;
-    card.onclick=()=>flip(card,img);
-    grid.appendChild(card);
+    c.onclick=()=>flip(c,img);
+    grid.appendChild(c);
   });
 }
 start();
@@ -111,12 +123,13 @@ function flip(card,img){
   if(!first){first={card,img};return;}
 
   if(first.img===img){
-    matched++;
-    first=null;
+    matched++;first=null;
     if(matched===images.length){
-      const best=localStorage.getItem("best");
-      if(!best||flips<best) localStorage.setItem("best",flips);
-      bestEl.textContent=localStorage.getItem("best");
+      let best=Number(localStorage.getItem("best"));
+      if(best===0||flips<best){
+        localStorage.setItem("best",flips);
+        bestEl.textContent=flips;
+      }
     }
   }else{
     lock=true;
@@ -134,20 +147,6 @@ function resetGame(){start();}
 function goHome(){
   localStorage.setItem("musicTime",music.currentTime);
   window.location.href="index.html";
-}
-
-/* MUSIC CONTINUITY */
-const t=localStorage.getItem("musicTime");
-if(t) music.currentTime=parseFloat(t);
-music.play();
-
-music.onended=()=>{
-  music.src = music.src.includes("music1") ? "music2.mp3" : "music1.mp3";
-  music.play();
-};
-
-function toggleMute(){
-  music.muted=!music.muted;
 }
 </script>
 
